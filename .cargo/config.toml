@@ -1,0 +1,4 @@
+[target.aarch64-unknown-linux-musl]
+rustflags = [
+    "-C", "link-args=-l:libclang_rt.builtins-aarch64.a",
+]

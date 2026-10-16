@@ -1,0 +1,22 @@
+[package]
+name = "po-game-server"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = {version = "1.0.104"}
+libdeno = { version = "0.3.4", default-features = false, features = ["snapshot"] }
+mimalloc = { version = "0.1.52", features = [] }
+tokio = { version = "1.53.2", features = ["full"] }
+
+[patch.crates-io]
+deno_runtime = { path = "deno_runtime" }
+deno_node = { path = "deno_node" }
+deno_core = { path = "deno_core" }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+panic = "abort"
+codegen-units = 1
+strip = "symbols"
