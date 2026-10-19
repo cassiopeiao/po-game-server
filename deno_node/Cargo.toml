@@ -12,7 +12,7 @@
 [package]
 edition = "2024"
 name = "deno_node"
-version = "0.195.0"
+version = "0.197.0"
 authors = ["the Deno authors"]
 build = "build.rs"
 autolib = false
@@ -58,7 +58,7 @@ features = [
 ]
 
 [dependencies.deno_core]
-version = "0.410.0"
+version = "0.412.0"
 features = [
     "reactor-tokio",
     "v8_use_custom_libcxx",
@@ -66,53 +66,53 @@ features = [
 default-features = false
 
 [dependencies.deno_dotenv]
-version = "0.26.0"
+version = "0.28.0"
 
 [dependencies.deno_error]
 version = "=0.7.1"
 
 [dependencies.deno_fs]
-version = "0.167.0"
+version = "0.169.0"
 
 [dependencies.deno_inspector_server]
-version = "0.31.0"
+version = "0.33.0"
 
 [dependencies.deno_io]
-version = "0.167.0"
+version = "0.169.0"
 
 [dependencies.deno_native_certs]
 version = "0.3.0"
 
 [dependencies.deno_net]
-version = "0.249.0"
+version = "0.251.0"
 
 [dependencies.deno_node_crypto]
-version = "0.27.0"
+version = "0.29.0"
+
+[dependencies.deno_os]
+version = "0.76.0"
 
 [dependencies.deno_package_json]
-version = "0.59.0"
+version = "0.61.0"
 default-features = false
 
 [dependencies.deno_path_util]
 version = "=0.6.4"
 
 [dependencies.deno_permissions]
-version = "0.116.0"
+version = "0.118.0"
 
 [dependencies.deno_process]
-version = "0.72.0"
+version = "0.74.0"
 
 [dependencies.deno_resolver]
-version = "0.88.0"
+version = "0.90.0"
 
 [dependencies.deno_tls]
-version = "0.244.0"
+version = "0.246.0"
 
 [dependencies.deno_whoami]
 version = "0.1.0"
-
-[dependencies.faster-hex]
-version = "0.10.0"
 
 [dependencies.filetime]
 version = "0.2.16"
@@ -141,10 +141,10 @@ version = "0.4.28"
 features = ["kv"]
 
 [dependencies.node_resolver]
-version = "0.95.0"
+version = "0.97.0"
 
 [dependencies.node_shim]
-version = "0.32.0"
+version = "0.34.0"
 
 [dependencies.rand]
 version = "=0.8.5"
@@ -208,7 +208,7 @@ version = "=0.30.1"
 features = ["user"]
 
 [target."cfg(windows)".dependencies.deno_subprocess_windows]
-version = "0.52.0"
+version = "0.54.0"
 
 [target."cfg(windows)".dependencies.windows-sys]
 version = "0.59.0"

@@ -12,7 +12,7 @@
 [package]
 edition = "2024"
 name = "deno_runtime"
-version = "0.265.0"
+version = "0.267.0"
 authors = ["the Deno authors"]
 build = false
 autolib = false
@@ -58,16 +58,16 @@ features = ["transpiling"]
 optional = true
 
 [dependencies.deno_bundle_runtime]
-version = "0.44.0"
+version = "0.46.0"
 
 [dependencies.deno_cache]
-version = "0.190.0"
+version = "0.192.0"
 
 [dependencies.deno_canvas]
-version = "0.119.0"
+version = "0.121.0"
 
 [dependencies.deno_core]
-version = "0.410.0"
+version = "0.412.0"
 features = [
     "reactor-tokio",
     "v8_use_custom_libcxx",
@@ -75,99 +75,99 @@ features = [
 default-features = false
 
 [dependencies.deno_cron]
-version = "0.137.0"
+version = "0.139.0"
 
 [dependencies.deno_crypto]
-version = "0.271.0"
+version = "0.273.0"
 
 [dependencies.deno_error]
 version = "=0.7.1"
 
 [dependencies.deno_features]
-version = "0.54.0"
+version = "0.56.0"
 
 [dependencies.deno_fetch]
-version = "0.281.0"
+version = "0.283.0"
 
 [dependencies.deno_ffi]
-version = "0.244.0"
+version = "0.246.0"
 
 [dependencies.deno_fs]
-version = "0.167.0"
+version = "0.169.0"
 features = ["sync_fs"]
 
 [dependencies.deno_http]
-version = "0.255.0"
+version = "0.257.0"
 
 [dependencies.deno_image]
-version = "0.33.0"
+version = "0.35.0"
 
 [dependencies.deno_inspector_server]
-version = "0.31.0"
+version = "0.33.0"
 
 [dependencies.deno_io]
-version = "0.167.0"
+version = "0.169.0"
 
 [dependencies.deno_kv]
-version = "0.165.0"
+version = "0.167.0"
 
 [dependencies.deno_napi]
-version = "0.188.0"
+version = "0.190.0"
 
 [dependencies.deno_net]
-version = "0.249.0"
+version = "0.251.0"
 
 [dependencies.deno_node]
-version = "0.195.0"
+version = "0.197.0"
 
 [dependencies.deno_node_crypto]
-version = "0.27.0"
+version = "0.29.0"
 
 [dependencies.deno_node_sqlite]
-version = "0.27.0"
+version = "0.29.0"
 
 [dependencies.deno_os]
-version = "0.74.0"
+version = "0.76.0"
 
 [dependencies.deno_path_util]
 version = "=0.6.4"
 
 [dependencies.deno_permissions]
-version = "0.116.0"
+version = "0.118.0"
 
 [dependencies.deno_process]
-version = "0.72.0"
+version = "0.74.0"
 
 [dependencies.deno_resolver]
-version = "0.88.0"
+version = "0.90.0"
 features = ["sync"]
 
 [dependencies.deno_signals]
-version = "0.48.0"
+version = "0.50.0"
 
 [dependencies.deno_telemetry]
-version = "0.79.0"
+version = "0.81.0"
 
 [dependencies.deno_terminal]
 version = "=0.2.3"
 
 [dependencies.deno_tls]
-version = "0.244.0"
+version = "0.246.0"
 
 [dependencies.deno_web]
-version = "0.288.0"
+version = "0.290.0"
 
 [dependencies.deno_webgpu]
-version = "0.224.0"
+version = "0.226.0"
 
 [dependencies.deno_webidl]
-version = "0.257.0"
+version = "0.259.0"
 
 [dependencies.deno_websocket]
-version = "0.262.0"
+version = "0.264.0"
 
 [dependencies.deno_webstorage]
-version = "0.252.0"
+version = "0.254.0"
 
 [dependencies.ed25519-dalek]
 version = "2.1.1"
@@ -203,7 +203,7 @@ version = "0.4.28"
 features = ["kv"]
 
 [dependencies.node_resolver]
-version = "0.95.0"
+version = "0.97.0"
 features = ["sync"]
 
 [dependencies.notify]
@@ -234,6 +234,9 @@ version = "1.0.6"
 [dependencies.serde]
 version = "1.0.149"
 features = ["derive"]
+
+[dependencies.serde_bytes]
+version = "0.11"
 
 [dependencies.sha2]
 version = "0.10.8"

@@ -83,7 +83,7 @@ fn overwrite_argv_buffer(title: &str) {
 ///
 /// # Safety
 /// `argv` must be a valid pointer to `argc` C string pointers.
-#[cfg(all(unix,not(target_env = "musl")))]
+#[cfg(unix)]
 unsafe fn compute_argv_info(
   argc: usize,
   argv: *mut *mut libc::c_char,
@@ -118,14 +118,9 @@ static ARGV_INIT_FN: unsafe extern "C" fn(
     if argv.is_null() || argc <= 0 {
       return;
     }
-    #[cfg(target_env = "musl")]
-    return;
     // SAFETY: argc and argv are provided by the OS at process init and are valid.
-    #[cfg(not(target_env = "musl"))]
-    {
-      let info = unsafe { compute_argv_info(argc as usize, argv) };
-      let _ = ARGV_INFO.set(info);
-    }
+    let info = unsafe { compute_argv_info(argc as usize, argv) };
+    let _ = ARGV_INFO.set(info);
   }
   init
 };
@@ -462,9 +457,10 @@ pub fn op_node_process_setuid(
 /// 8 swappedOut, 9 fsRead, 10 fsWrite, 11 ipcSent, 12 ipcReceived,
 /// 13 signalsCount, 14 voluntaryContextSwitches, 15 involuntaryContextSwitches.
 ///
-/// CPU times are in microseconds. This mirrors libuv's `uv_getrusage`, which
-/// Node.js uses: on Unix the values come straight from `getrusage(2)`, and on
-/// platforms that don't provide a field it is reported as `0`.
+/// CPU times are in microseconds. This follows libuv's `uv_getrusage` unit
+/// conventions for the platforms supported by Deno: on Unix the values come
+/// from `getrusage(2)`, with max RSS normalized to kilobytes on Apple
+/// platforms. Fields unavailable on a platform are reported as `0`.
 #[op2(fast)]
 pub fn op_node_process_resource_usage(#[buffer] out: &mut [f64]) {
   if out.len() < 16 {
@@ -490,11 +486,12 @@ fn get_resource_usage() -> [f64; 16] {
   let micros = |tv: libc::timeval| -> f64 {
     (tv.tv_sec as f64) * 1_000_000.0 + (tv.tv_usec as f64)
   };
+  let max_rss = max_rss_in_kb(r.ru_maxrss);
 
   [
     micros(r.ru_utime),   // userCPUTime
     micros(r.ru_stime),   // systemCPUTime
-    r.ru_maxrss as f64,   // maxRSS
+    max_rss,              // maxRSS
     r.ru_ixrss as f64,    // sharedMemorySize
     r.ru_idrss as f64,    // unsharedDataSize
     r.ru_isrss as f64,    // unsharedStackSize
@@ -509,6 +506,17 @@ fn get_resource_usage() -> [f64; 16] {
     r.ru_nvcsw as f64,    // voluntaryContextSwitches
     r.ru_nivcsw as f64,   // involuntaryContextSwitches
   ]
+}
+
+#[cfg(all(unix, target_vendor = "apple"))]
+fn max_rss_in_kb(ru_maxrss: libc::c_long) -> f64 {
+  // macOS and iOS report ru_maxrss in bytes, unlike other Unix platforms.
+  (ru_maxrss / 1024) as f64
+}
+
+#[cfg(all(unix, not(target_vendor = "apple")))]
+fn max_rss_in_kb(ru_maxrss: libc::c_long) -> f64 {
+  ru_maxrss as f64
 }
 
 #[cfg(windows)]
@@ -573,6 +581,26 @@ fn get_resource_usage() -> [f64; 16] {
 #[cfg(not(any(unix, windows)))]
 fn get_resource_usage() -> [f64; 16] {
   [0.0; 16]
+}
+
+#[cfg(all(test, unix, target_vendor = "apple"))]
+mod tests {
+  use super::max_rss_in_kb;
+
+  #[test]
+  fn max_rss_converts_apple_bytes_to_kilobytes() {
+    assert_eq!(max_rss_in_kb(1536), 1.0);
+  }
+}
+
+#[cfg(all(test, unix, not(target_vendor = "apple")))]
+mod tests {
+  use super::max_rss_in_kb;
+
+  #[test]
+  fn max_rss_preserves_non_apple_unix_kilobytes() {
+    assert_eq!(max_rss_in_kb(1536), 1536.0);
+  }
 }
 
 /// Returns the cgroup-constrained memory limit, or 0 if unconstrained.

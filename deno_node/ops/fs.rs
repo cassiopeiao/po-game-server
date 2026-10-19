@@ -38,7 +38,7 @@ static NEXT_VIRTUAL_FD: AtomicI32 = AtomicI32::new(VIRTUAL_FD_START);
 
 fn next_virtual_fd() -> i32 {
   NEXT_VIRTUAL_FD
-    .try_update(Ordering::Relaxed, Ordering::Relaxed, |v| {
+    .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |v| {
       Some(v.saturating_add(1))
     })
     .unwrap()
@@ -351,16 +351,6 @@ fn get_open_options(flags: i32, mode: Option<u32>) -> OpenOptions {
   options
 }
 
-fn open_options_to_access_kind(open_options: &OpenOptions) -> OpenAccessKind {
-  let read = open_options.read;
-  let write = open_options.write || open_options.append || open_options.create;
-  match (read, write) {
-    (true, true) => OpenAccessKind::ReadWrite,
-    (false, true) => OpenAccessKind::Write,
-    (true, false) | (false, false) => OpenAccessKind::Read,
-  }
-}
-
 #[op2(fast, stack_trace)]
 #[smi]
 pub fn op_node_open_sync(
@@ -375,7 +365,7 @@ pub fn op_node_open_sync(
   let fs = state.borrow::<FileSystemRc>().clone();
   let path = state.borrow_mut::<PermissionsContainer>().check_open(
     Cow::Borrowed(path),
-    open_options_to_access_kind(&options),
+    options.access_kind(),
     Some("node:fs.openSync"),
   )?;
 
@@ -438,7 +428,7 @@ pub async fn op_node_open(
       state.borrow::<FileSystemRc>().clone(),
       state.borrow_mut::<PermissionsContainer>().check_open(
         Cow::Owned(path),
-        open_options_to_access_kind(&options),
+        options.access_kind(),
         Some("node:fs.open"),
       )?,
     )

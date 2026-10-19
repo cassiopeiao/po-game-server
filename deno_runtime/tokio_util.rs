@@ -69,7 +69,7 @@ pub fn create_basic_runtime() -> tokio::runtime::Runtime {
 #[inline(always)]
 fn create_and_run_current_thread_inner<F, R>(
   future: F,
-  _metrics_enabled: bool,
+  metrics_enabled: bool,
 ) -> R
 where
   F: std::future::Future<Output = R> + 'static,

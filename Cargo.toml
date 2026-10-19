@@ -5,12 +5,13 @@ edition = "2024"
 
 [dependencies]
 anyhow = {version = "1.0.104"}
-libdeno = { version = "0.3.4", default-features = false, features = ["snapshot"] }
+clap = { version = "4.6.7", features = ["derive"] }
+libdeno = { version = "0.3.5", default-features = false, features = ["snapshot"] }
 mimalloc = { version = "0.1.52", features = [] }
 tokio = { version = "1.53.2", features = ["full"] }
 
 [patch.crates-io]
-deno_runtime = { path = "deno_runtime" }
+#deno_runtime = { path = "deno_runtime" }
 deno_node = { path = "deno_node" }
 deno_core = { path = "deno_core" }
 
