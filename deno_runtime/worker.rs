@@ -80,6 +80,7 @@ pub(crate) static SIGUSR2_RX: LazyLock<tokio::sync::watch::Receiver<()>> =
         sigusr2.recv().await;
 
         // SAFETY: calling into libc, nothing relevant on the Rust side.
+        #[cfg(not(target_env = "musl"))]
         unsafe {
           libc::malloc_trim(0);
         }

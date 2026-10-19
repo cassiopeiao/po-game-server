@@ -2538,8 +2538,6 @@ dependencies = [
 [[package]]
 name = "deno_runtime"
 version = "0.267.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4973836a4007c683a00fd3db82bad855336ba47e35a35edd4250feffa077e02"
 dependencies = [
  "async-trait",
  "base64 0.22.1",

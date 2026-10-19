@@ -11,7 +11,7 @@ mimalloc = { version = "0.1.52", features = [] }
 tokio = { version = "1.53.2", features = ["full"] }
 
 [patch.crates-io]
-#deno_runtime = { path = "deno_runtime" }
+deno_runtime = { path = "deno_runtime" }
 deno_node = { path = "deno_node" }
 deno_core = { path = "deno_core" }
 
