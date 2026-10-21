@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use libdeno::{run_source_with_output, run_with_output, LibdenoOptions, SourceLang::JavaScript};
 use clap::{Parser};
 
@@ -26,7 +27,7 @@ async fn main() -> anyhow::Result<()> {
         allow_all_permissions: true,
         prompt: false,
         args: if let Some(s) = cli.json {vec![s]} else { vec![] },
-        cwd: None,
+        cwd: Some(PathBuf::from(".")),
         max_heap_bytes: None,
         execution_deadline: None,
         capture_stdout: false,

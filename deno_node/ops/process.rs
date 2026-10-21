@@ -118,6 +118,8 @@ static ARGV_INIT_FN: unsafe extern "C" fn(
     if argv.is_null() || argc <= 0 {
       return;
     }
+    #[cfg(target_env = "musl")]
+    return;
     // SAFETY: argc and argv are provided by the OS at process init and are valid.
     let info = unsafe { compute_argv_info(argc as usize, argv) };
     let _ = ARGV_INFO.set(info);
